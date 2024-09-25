@@ -1,0 +1,13 @@
+{
+    "name": "schettke/twig-for-wordpress",
+    "autoload": {
+        "psr-4": {"Schettke\\TwigForWordpress\\": "src/"}
+    },
+    "require": {
+        "twig/twig": "^2.5",
+        "symfony/yaml": "^4.2",
+        "matthiasmullie/minify": "^1.3",
+        "tigr/twig-preprocessor": "^2.0",
+      	"twig/extensions": "^1.5"
+    }
+}

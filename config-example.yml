@@ -1,0 +1,58 @@
+parameters:
+  # Hinweis zur Ordnerstruktur
+  # Damit dieses Plugin reibungslos funktioniert bitte folgende Ordnerstruktur einhalten. Die Ordner und
+  # Standarddateien werden bei der Installation dieser Komponente durch Composer automatisch angelegt.
+  # plugin
+  # -> config
+  #      Aus diesem Ordner wird versucht, eine Konfigurationsdatei entsprechend dem Hostnamen zu laden,
+  #      z.B. "www.pro-kita.com.yml". Konnte keine passende Datei gefunden werden, wird "default.yml" verwendet.
+  # -> public
+  #   -> css
+  #         Aus diesem Ordner wird die Datei "base.css" für gemeinsame CSS-Styles geladen.
+  #         Außerdem kann mit dem Parameter "view.css_path" eine weitere CSS-Datei zum überschreiben
+  #         der Base-Regeln definiert werden (s.u.).
+  #   -> js
+  #         Analog dazu kann hier eine JS-Datei hinterlegt und unter "view.js_path" eingetragen werden. Diese Datei
+  #         wird dann für alle Templates automatisch eingebunden.
+  # -> views
+  #   -> base
+  #        Standard-Ordner , aus dem die Templates geladen werden. Es sollten mindestens die Dateien "single.twig"
+  #        und "archive.twig" vorhanden sein. Diese dienen als Einstiegspunkte für das Rendering, entsprechend
+  #        den Wordpress-Filtern "single_template" und "archive_template". Die Filter werden automatisch angelegt.
+  #        Templates können beliebig verschachtelt werden.
+  #   -> ggf. beliebige weitere Ordner, um die Standard-Templates gezielt zu überschreiben,
+  #      s. Parameter "view.basedir"
+  # -> cache
+  #      Dieser Ordner wird automatch von Twig erstellt. Er kann bei Bedarf einfach gelöscht werden.
+
+  # PostType(s), für den die Templates gelten sollen. Für diese postTypes werden die Wordpress-Filter "single_template"
+  # und "archive_template" überschrieben, so dass deren Templates über das Template-System geladen werden.
+  # Es wird zunächst versucht, die Datei single-{post_type}.twig bzw. archive-{post_type}.twig zu laden.
+  # Ist diese Datei nicht vorhanden, wird auf single.twig bzw. archive.twig zurückgefallen.
+  # Außerdem wird der aktuelle postType den Templates als Variable "post_type" übergeben.
+  view.post_types : ['recipes','plans']
+
+  # Templates werden grundsätzlich aus dem Ordner views/base geladen.
+  # Hier kann ein weiterer Ordnername eintragen werden, der Unterordner von views ist.
+  # Es wird dann versucht, Templatedateien aus diesem Ordner zu laden. Wird die Datei nicht gefunden, wird stattdessen
+  # das Template aus views/base verwendet.
+  view.basedir :     false
+
+  # public/css/base.css wird immer geladen. Hier kann eine zusätzliche CSS-Datei angegeben werden.
+  # Die zusätzliche Datei wird dann nach der base.css eingebunden, so dass damit einzelne CSS-Regeln
+  # überschrieben werden können.
+  view.css_file :    false
+  view.js_file  :    schettke_recipes.js
+
+  # enqueue lazy-loading image loader ( https://github.com/aFarkas/lazysizes )
+  view.lazyloading : true
+
+  # Setzt die Parameter "debug" und "strict_variables" des \Twig_Environment auf true. Damit wird u.a. der
+  # Twig Cache ausser Kraft gesetzt. Außerdem werden bei ungesetzten Variablen Fehler geworfen.
+  # Bei aktiviertem Debug Modus kann man sich in den Templates mit folgendem Befehl Informationen zu den
+  # vorhandenen Feldern ausgeben lassen, z.B. für die Variable "post": <pre>{{dump(post)}}</pre>
+  view.debug_mode : true
+
+  # ViewComponent "Minifier" aktivieren. Diese Komponente fasst automatisch alle CSS und JS Dateien dieser Komponente
+  # und zugehöriger ViewComponents zusammen. Wenn "view.debug_mode" aktiv ist, wird der Minifier automatisch deaktiviert.
+  view.minifier_enabled : true
